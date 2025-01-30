@@ -138,16 +138,26 @@
       to { opacity: 1; }
     }
 
-    /* Mini Hearts */
+    /* Floating Hearts */
     .heart {
       position: absolute;
+      font-size: 20px;
+      color: #ff6f61;
       pointer-events: none;
-      animation: float 2s ease-in-out infinite;
+      animation: float 5s ease-in-out infinite;
     }
 
     @keyframes float {
       0% { transform: translateY(0) scale(1); opacity: 1; }
-      100% { transform: translateY(-100px) scale(0.5); opacity: 0; }
+      100% { transform: translateY(-100vh) scale(0.5); opacity: 0; }
+    }
+
+    /* Floating Candles on Hover */
+    .candle {
+      position: absolute;
+      font-size: 24px;
+      pointer-events: none;
+      animation: flicker 1s infinite;
     }
 
     /* Scroll Animations */
@@ -300,7 +310,7 @@
   <!-- Hero Section -->
   <section id="home" class="hero">
     <div>
-      <h1>Welcome to Munaza's World</h1>
+      <h1>Welcome to Munaza World</h1>
       <p>Handmade Candles for a Cozy Ambiance</p>
       <button>Shop Now</button>
     </div>
@@ -351,34 +361,36 @@
     <p>&copy; 2023 Munaza Candles. All rights reserved.</p>
   </footer>
 
-  <!-- JavaScript for Mini Hearts and Scroll Animations -->
+  <!-- JavaScript for Floating Hearts and Candles -->
   <script>
-    // Mini Hearts on Hover
-    document.addEventListener('mousemove', (e) => {
+    // Floating Hearts on Page Load
+    const heartColors = ['#ff6f61', '#ffcccb', '#ff1493', '#ff69b4', '#ffb6c1'];
+    const heartContainer = document.createElement('div');
+    document.body.appendChild(heartContainer);
+
+    function createHeart() {
       const heart = document.createElement('div');
       heart.className = 'heart';
-      heart.innerHTML = '❤️';
-      
-      // Randomize heart size (10px to 20px)
-      const size = Math.random() * 10 + 10;
-      heart.style.fontSize = `${size}px`;
-      
-      // Randomize heart color
-      const colors = ['#ff6f61', '#ffcccb', '#ff1493', '#ff69b4', '#ffb6c1'];
-      const randomColor = colors[Math.floor(Math.random() * colors.length)];
-      heart.style.color = randomColor;
-      
-      // Position the heart at the mouse pointer
-      heart.style.left = `${e.pageX}px`;
-      heart.style.top = `${e.pageY}px`;
-      
-      // Add slight randomness to position to avoid congestion
-      heart.style.transform = `translate(${Math.random() * 20 - 10}px, ${Math.random() * 20 - 10}px)`;
-      
-      document.body.appendChild(heart);
-      
-      // Remove heart after animation ends
-      setTimeout(() => heart.remove(), 2000);
+      heart.innerHTML = '❤️ ';
+      heart.style.left = `${Math.random() * 100}vw`;
+      heart.style.top = `${Math.random() * 100}vh`;
+      heart.style.color = heartColors[Math.floor(Math.random() * heartColors.length)];
+      heart.style.fontSize = `${Math.random() * 20 + 10}px`;
+      heartContainer.appendChild(heart);
+      setTimeout(() => heart.remove(), 5000);
+    }
+
+    setInterval(createHeart, 500);
+
+    // Floating Candles on Mouse Hover
+    document.addEventListener('mousemove', (e) => {
+      const candle = document.createElement('div');
+      candle.className = 'candle';
+      candle.innerHTML = '❤️ ';
+      candle.style.left = `${e.pageX}px`;
+      candle.style.top = `${e.pageY}px`;
+      document.body.appendChild(candle);
+      setTimeout(() => candle.remove(), 2000);
     });
 
     // Scroll Animations
